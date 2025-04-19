@@ -2,23 +2,50 @@
   "version": 2,
   "builds": [
     {
-      "src": "client/package.json",
-      "use": "@vercel/static-build",
-      "config": { "distDir": "build" }
-    },
-    {
-      "src": "server/src/index.js",
+      "src": "server/src/server.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "server/src/index.js"
+      "dest": "/server/src/server.js"
+    },
+    {
+      "src": "/users/(.*)",
+      "dest": "/server/src/server.js"
+    },
+    {
+      "src": "/callback(.*)",
+      "dest": "/server/src/server.js"
+    },
+    {
+      "src": "/dashboard/(.*)",
+      "dest": "/server/src/server.js"
+    },
+    {
+      "src": "/static/(.*)",
+      "dest": "/client/build/static/$1"
+    },
+    {
+      "src": "/manifest.json",
+      "dest": "/client/build/manifest.json"
+    },
+    {
+      "src": "/favicon.ico",
+      "dest": "/client/build/favicon.ico"
+    },
+    {
+      "src": "/logo192.png",
+      "dest": "/client/build/logo192.png"
+    },
+    {
+      "src": "/logo512.png",
+      "dest": "/client/build/logo512.png"
     },
     {
       "src": "/(.*)",
-      "dest": "client/build/$1"
+      "dest": "/client/build/index.html"
     }
   ],
   "env": {

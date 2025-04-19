@@ -57,7 +57,9 @@ exports.handleCallback = async (req, res) => {
             },
             { new: true, upsert: true }
         );
-        res.redirect(`http://localhost:5001/spotify-logged-in?userId=${user._id}`);
+        res.redirect(`${process.env.NODE_ENV === 'production' 
+          ? 'https://mood-analyzer-mu.vercel.app' 
+          : 'http://localhost:5001'}/spotify-logged-in?userId=${user._id}`);
     } catch (error) {
         console.error('Error exchanging code for token:', error);
         res.status(500).json({ error: 'Failed to exchange code for token' });
@@ -70,9 +72,7 @@ exports.getUser = async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
-        setTimeout(() => {
-            res.json(user);
-        }, 5000);
+        res.json(user);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
